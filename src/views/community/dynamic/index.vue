@@ -1,6 +1,27 @@
 <template>
     <div class="app-container">
-
+        <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="68px">
+            <el-form-item label="文章标题" prop="searchTitle">
+            
+                <el-input
+                placeholder="请输入文章标题"
+                v-model="searchTitle"
+                clearable>
+                </el-input>
+            </el-form-item>
+            <el-form-item label="文章内容" prop="searchContent">
+            
+                <el-input
+                placeholder="请输入文章内容"
+                v-model="searchContent"
+                clearable>
+                </el-input>
+            </el-form-item>
+            <el-form-item>
+                <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
+                <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+            </el-form-item>
+        </el-form>
         <el-row :gutter="10" class="mb8">
              <el-col :span="1.5">
                 <el-button
@@ -47,13 +68,15 @@
             <el-table-column label="文章标题" align="center" prop="articleTitle" />
             <el-table-column label="文章发布人" align="center" prop="articleAuthor" />
             <el-table-column label="发布时间" align="center" prop="articleDate" />
-            <el-table-column label="文章内容" align="center" >
-                <template slot-scope="scope">
-                    <div v-html="scope.row.articleContent"></div>
-                </template>
-            </el-table-column>
             <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
                 <template slot-scope="scope">
+                <el-button
+                    size="mini"
+                    type="text"
+                    icon="el-icon-edit"
+                    @click="handleView(scope.row)"
+                    v-hasPermi="['system:post:edit']"
+                >预览</el-button>
                 <el-button
                     size="mini"
                     type="text"
@@ -80,30 +103,34 @@
         />
 
         <!-- 添加或修改对话框 -->
-        <el-dialog :title="title" :visible.sync="open" width="780px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-row>
-            <el-col :span="12">
-                <el-form-item label="公告标题" prop="articleTitle">
-                <el-input v-model="form.articleTitle" placeholder="请输入公告标题" />
-                </el-form-item>
-            </el-col>
-            <el-col :span="12">
-                <el-form-item label="文章作者" prop="articleAuthor">
-                <el-input v-model="form.articleAuthor" placeholder="请输入发布人" />
-                </el-form-item>
-            </el-col>
-            <el-col :span="24">
-                <el-form-item label="内容" prop="articleContent">
-                    <Editor v-model="form.articleContent" />
-                </el-form-item>
-            </el-col>
-        </el-row>
-      </el-form>
-      <div slot="footer" class="dialog-footer" style="padding-top:20px">
-        <el-button type="primary" @click="submitForm">确 定</el-button>
-        <el-button @click="cancel">取 消</el-button>
-      </div>
+        <el-dialog :title="title" :visible.sync="open" width="980px" append-to-body>
+            <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+                <el-row>
+                    <el-col :span="12">
+                        <el-form-item label="公告标题" prop="articleTitle">
+                        <el-input v-model="form.articleTitle" placeholder="请输入公告标题" />
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="文章作者" prop="articleAuthor">
+                        <el-input v-model="form.articleAuthor" placeholder="请输入发布人" />
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="24">
+                        <el-form-item label="内容" prop="articleContent">
+                            <Editor v-model="form.articleContent" />
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+            </el-form>
+            <div slot="footer" class="dialog-footer" style="padding-top:20px">
+                <el-button type="primary" @click="submitForm">确 定</el-button>
+                <el-button @click="cancel">取 消</el-button>
+            </div>
+    </el-dialog>
+
+    <el-dialog :title="viewTitle" :visible.sync="dialogTableVisible">
+        <div v-html="viewContent" class="view-content"></div>
     </el-dialog>
     </div>
 </template>
@@ -155,7 +182,12 @@ export default {
                     articleContent: [
                     { required: true, message: "内容不能为空", trigger: "blur" }
                     ]
-                }
+                },
+                searchTitle:'',//搜索标题
+                searchContent:'',//搜索内容
+                dialogTableVisible: false,
+                viewTitle:'',
+                viewContent:''
 
         }
     },
@@ -251,6 +283,13 @@ export default {
             this.open = false;
             this.reset();
         },
+        //预览
+        handleView(value){
+            console.log(value)
+            this.dialogTableVisible = true;
+            this.viewTitle = value.articleTitle
+            this.viewContent = value.articleContent
+        },
         /** 导出按钮操作 */
         handleExport() {
             const queryParams = this.queryParams;
@@ -270,10 +309,50 @@ export default {
 
          /** 重置按钮操作 */
         resetQuery() {
-            this.userName = '';
+            this.searchTitle = '';
+            this.searchContent = '';
             this.handleQuery();
+        },
+        /* 搜索按钮操作 */
+        handleQuery(){
+            this.queryParams = {
+                pageNum: 0,
+                pageSize: 10,
+                articleTitle: this.searchTitle,
+                articleContent: this.searchContent
+            }
+            //this.queryParams.pageNum = 1;
+            // if(!this.searchName){
+            //     this.queryParams.id = '';
+            // }
+            // for(let i=0;i<this.dynamicList.length;i++){
+            //     if(this.dynamicList[i].articleTitle ==this.searchTitle ){
+            //         this.queryParams.id = this.dynamicList[i].id;
+            //     }
+            // };
+            
+            this.getList();
         },
    
     }
 }
 </script>
+<style lang="scss">
+    .view-content{
+        width: 800px;
+        height: 600px;
+        display: contents;
+        img{
+            display: block;
+            max-width: 100%;
+        }
+    }
+    .el-dialog__body{
+        height: 500px;
+        overflow-y: auto;
+
+    }
+    .editor{
+        height: 340px;
+    }
+</style>

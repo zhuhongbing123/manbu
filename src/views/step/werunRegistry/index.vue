@@ -247,6 +247,8 @@ export default {
         /* 选择姓名 */
         handleSelect(item) {
             console.log(item);
+            this.userName = item.value;
+            this.handleQuery()
         },
          /** 重置按钮操作 */
         resetQuery() {
@@ -256,21 +258,26 @@ export default {
         /* 搜索按钮操作 */
         handleQuery(){
             this.queryParams = {
-                page: 0,
-                limit: 10,
-                userId: '11111',
-                sidx: 'T.WERUN_SUBMIT_DATE',
-                asc: 'FALSE'
+                pageNum: 0,
+                pageSize: 10,
+                userName: this.userName
             }
-            //this.queryParams.pageNum = 1;
-            if(!this.userName){
-                this.queryParams.userId = '';
-            }
-            for(let i=0;i<this.registerList.length;i++){
-                if(this.registerList[i].nickname ==this.userName){
-                    this.queryParams.userId = this.registerList[i].userId;
-                }
-            };
+            // this.queryParams = {
+            //     page: 0,
+            //     limit: 10,
+            //     userId: '11111',
+            //     sidx: 'T.WERUN_SUBMIT_DATE',
+            //     asc: 'FALSE'
+            // }
+            // //this.queryParams.pageNum = 1;
+            // if(!this.userName){
+            //     this.queryParams.userId = '';
+            // }
+            // for(let i=0;i<this.registerList.length;i++){
+            //     if(this.registerList[i].nickname ==this.userName){
+            //         this.queryParams.userId = this.registerList[i].userId;
+            //     }
+            // };
             
             this.getUser();
         },

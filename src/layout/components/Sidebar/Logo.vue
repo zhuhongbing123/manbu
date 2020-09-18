@@ -26,7 +26,7 @@ export default {
   },
   data() {
     return {
-      title: '漫步观东管理系统',
+      title: '观东社区小程序管理系统',
       logo: logoImg
     }
   }

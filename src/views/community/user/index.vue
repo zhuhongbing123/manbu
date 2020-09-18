@@ -1,6 +1,19 @@
 <template>
     <div class="app-container">
- 
+        <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="68px">
+            <el-form-item label="姓名" prop="searchName">
+            
+                <el-input
+                placeholder="请输入用户姓名或昵称"
+                v-model="searchName"
+                clearable>
+                </el-input>
+            </el-form-item>
+            <el-form-item>
+                <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
+                <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+            </el-form-item>
+        </el-form>
         <el-row :gutter="10" class="mb8">
             <!-- <el-col :span="1.5">
                 <el-button
@@ -43,7 +56,9 @@
         </el-row>
         <el-table v-loading="loading" :data="userList" @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55" align="center" />
-            <el-table-column label="姓名" align="center" prop="nickname" />
+            <el-table-column label="姓名" align="center" prop="userName" />
+            <el-table-column label="昵称" align="center" prop="nickname" />
+            <el-table-column label="手机号" align="center" prop="mobile" />
             <el-table-column label="注册日期" align="center" prop="registerTime" />
             <el-table-column label="上次登录日期" align="center" prop="lastLoginTime" />
             <el-table-column label="上次登录IP" align="center" prop="lastLoginIp" />
@@ -77,10 +92,15 @@
         <!-- 添加或修改用户对话框 -->
         <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
             <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-                <el-form-item label="姓名" prop="nickname">
-                    <el-input v-model="form.nickname" placeholder="请输入姓名" />
+                <el-form-item label="姓名" prop="userName">
+                    <el-input v-model="form.userName" placeholder="请输入姓名" />
                 </el-form-item>
-
+                <el-form-item label="昵称" prop="nickname">
+                    <el-input v-model="form.nickname" placeholder="请输入昵称" />
+                </el-form-item>
+                <el-form-item label="手机号" prop="mobile">
+                    <el-input v-model="form.mobile" placeholder="请输入昵称" />
+                </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button type="primary" @click="submitForm">确 定</el-button>
@@ -118,8 +138,14 @@ export default {
                 form: {},
                 // 表单校验
                 rules: {
-                    nickname: [
+                    userName: [
                     { required: true, message: "用户名称不能为空", trigger: "blur" }
+                    ],
+                    nickname: [
+                    { required: true, message: "昵称不能为空", trigger: "blur" }
+                    ],
+                    mobile: [
+                    { required: true, message: "手机号不能为空", trigger: "blur" }
                     ],
                     postCode: [
                     { required: true, message: "岗位编码不能为空", trigger: "blur" }
@@ -127,7 +153,8 @@ export default {
                     postSort: [
                     { required: true, message: "岗位顺序不能为空", trigger: "blur" }
                     ]
-                }
+                },
+                searchName:''//搜索的名称
         }
     },
     created() {
@@ -218,7 +245,22 @@ export default {
                   
                     this.download(response.msg);
             }).catch(function() {});
-        }
+        },
+         /** 重置按钮操作 */
+        resetQuery() {
+            this.searchName = '';
+            this.handleQuery();
+        },
+        /* 搜索按钮操作 */
+        handleQuery(){
+            this.queryParams = {
+                pageNum: 0,
+                pageSize: 10,
+                userName: this.searchName
+            }
+            
+            this.getUser();
+        },
     }
 }
 </script>
