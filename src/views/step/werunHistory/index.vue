@@ -53,7 +53,7 @@
                 icon="el-icon-download"
                 size="mini"
                 @click="handleExport"
-                v-hasPermi="['system:post:export']"
+                v-hasPermi="['werun:history:export']"
                 >导出</el-button>
             </el-col>
         </el-row>
@@ -70,14 +70,14 @@
                     type="text"
                     icon="el-icon-edit"
                     @click="handleUpdate(scope.row)"
-                    v-hasPermi="['system:post:edit']"
+                    v-hasPermi="['werun:history:edit']"
                 >修改</el-button>
                 <el-button
                     size="mini"
                     type="text"
                     icon="el-icon-delete"
                     @click="handleDelete(scope.row)"
-                    v-hasPermi="['system:post:remove']"
+                    v-hasPermi="['werun:history:remove']"
                 >删除</el-button>
                 </template>
             </el-table-column>
