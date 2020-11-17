@@ -86,7 +86,7 @@
             :total="total"
             :page.sync="queryParams.pageNum"
             :limit.sync="queryParams.pageSize"
-            @pagination="queryParams"
+            @pagination="getUser"
         />
         
         <!-- 添加或修改用户对话框 -->
