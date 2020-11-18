@@ -28,10 +28,17 @@
         </el-row> -->
         <el-table v-loading="loading" :data="werunList" @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55" align="center" />
-            <el-table-column label="姓名" align="center" prop="userName" />
-            <el-table-column label="日期" align="center" prop="werunSubmitDate" />
-            <el-table-column label="最后更新时间" align="center" prop="werunSubmitTime" />
-            <el-table-column label="步数" align="center" prop="werunCount" />
+            <el-table-column label="姓名" align="center" prop="registerName" />
+            <el-table-column label="昵称" align="center" prop="nickname" />
+            <el-table-column label="头像" align="center"  prop="headImgUrl" >
+                
+                 <!--插入图片链接的代码-->
+                <template slot-scope="scope">
+                <img  :src="scope.row.headImgUrl" alt="" style="width: 50px;height: 50px">
+                </template>
+            </el-table-column>
+             <el-table-column label="电话" align="center" prop="mobile" />
+            <el-table-column label="步数" align="center" prop="totalCount" />
             <!-- <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
                 <template slot-scope="scope">
                 <el-button
@@ -118,12 +125,21 @@ export default {
                     { required: true, message: "步数不能为空", trigger: "blur" }
                     ]
                 },
-                dateValue: '' //选择的日期
+                dateValue: [] //选择的日期
 
         }
     },
     created() {
-        this.getUser();
+        var now = new Date(); //当前日期 
+        var nowMonth = now.getMonth(); //当前月 
+        var nowYear = now.getFullYear(); //当前年
+        //本月的开始时间
+        var monthStartDate = new Date(nowYear, nowMonth, 1);
+        this.dateValue.push(this.getDate(monthStartDate).fullDate );
+        this.dateValue.push(this.getDate(new Date()).fullDate);
+        this.queryParams.werun_start_date = this.getDate(monthStartDate).fullDate;
+        this.queryParams.werun_end_date = this.getDate(new Date()).fullDate;
+        this.getList();
     },
    
     methods:{
@@ -140,18 +156,44 @@ export default {
         getList() {
             listWerun(this.queryParams).then(response => {
                 let data = response.rows;
-                for(let i=0;i<data.length;i++){
-                    for(let j=0;j<this.registerList.length;j++){
-                        if(data[i].userId==this.registerList[j].userId){
-                            data[i]['userName'] = this.registerList[j].nickname;
-                        }
-                    }
-                }
+                // for(let i=0;i<data.length;i++){
+                //     for(let j=0;j<this.registerList.length;j++){
+                //         if(data[i].userId==this.registerList[j].userId){
+                //             data[i]['userName'] = this.registerList[j].nickname;
+                //         }
+                //     }
+                // }
                 this.werunList = data;
                 this.total = response.total;
                 this.loading = false;
             });
         },
+        getDate: function(date, AddDayCount = 0) {
+				if (!date) {
+					date = new Date()
+				}
+				if (typeof date !== 'object') {
+					date = date.replace(/-/g, '/')
+				}
+				const dd = new Date(date)
+			
+				dd.setDate(dd.getDate() + AddDayCount) // 获取AddDayCount天后的日期
+			
+				const y = dd.getFullYear()
+				const m = dd.getMonth() + 1 < 10 ? '0' + (dd.getMonth() + 1) : dd.getMonth() + 1 // 获取当前月份的日期，不足10补0
+				const d = dd.getDate() < 10 ? '0' + dd.getDate() : dd.getDate() // 获取当前几号，不足10补0
+				const hours = dd.getHours()< 10 ? '0' + dd.getHours() : dd.getHours();
+				const minutes = dd.getMinutes()< 10 ? '0' + dd.getMinutes() : dd.getMinutes();
+				const seconds = dd.getSeconds() < 10 ? '0' + dd.getSeconds() : dd.getSeconds();
+				return {
+					fullDate: y + '-' + m + '-' + d,
+					year: y,
+					month: m,
+					date: d,
+					day: dd.getDay(),
+					fullTime: y + '-' + m + '-' + d + ' '+ hours + ':' + minutes + ":" + seconds
+				}
+			},
         // 多选框选中数据
         handleSelectionChange(selection) {
             his.single = selection.length!=1
@@ -258,6 +300,10 @@ export default {
         },
         /* 搜索按钮操作 */
         handleQuery(){
+            if(!this.dateValue){
+                this.msgError("请选择日期");
+                return;
+            }
             this.queryParams = {
                 pageNum: 0,
                 pageSize: 10,

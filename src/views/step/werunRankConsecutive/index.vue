@@ -1,23 +1,22 @@
 
 <template>
     <div class="app-container">
-        <!-- <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="68px">
-            <el-form-item label="姓名" prop="userName">
+        <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="68px">
+            <el-form-item label="天数" prop="days">
                 
                 <el-autocomplete
                     class="inline-input"
-                    v-model="userName"
+                    v-model="days"
                     :fetch-suggestions="querySearch"
-                    placeholder="请输入用户姓名"
+                    placeholder="请输入整数"
                     :trigger-on-focus="false"
                     @select="handleSelect"
                 ></el-autocomplete>
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-                <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
             </el-form-item>
-        </el-form> -->
+        </el-form>
         <!-- <el-row :gutter="10" class="mb8">
             <el-col :span="1.5">
                 <el-button
@@ -31,10 +30,16 @@
         </el-row> -->
         <el-table v-loading="loading" :data="werunList" @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55" align="center" />
-            <el-table-column label="姓名" align="center" prop="userName" />
-            <el-table-column label="日期" align="center" prop="werunSubmitDate" />
-            <el-table-column label="最后更新时间" align="center" prop="werunSubmitTime" />
-            <el-table-column label="步数" align="center" prop="werunCount" />
+            <el-table-column label="姓名" align="center" prop="registerName" />
+            <el-table-column label="昵称" align="center" prop="nickname" />
+            <el-table-column label="头像" align="center"  prop="headImgUrl" >
+                
+                 <!--插入图片链接的代码-->
+                <template slot-scope="scope">
+                <img  :src="scope.row.headImgUrl" alt="" style="width: 50px;height: 50px">
+                </template>
+            </el-table-column>
+            <el-table-column label="签到天数" align="center" prop="consecutiveDay" />
             <!-- <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
                 <template slot-scope="scope">
                 <el-button
@@ -106,6 +111,7 @@ export default {
                     consecutiveDays: 15
                 },
                 userName:'',
+                nickname: '',
                 restaurants:[],
                 // 弹出层标题
                 title: "",
@@ -119,12 +125,13 @@ export default {
                     werunCount: [
                     { required: true, message: "步数不能为空", trigger: "blur" }
                     ]
-                }
+                },
+                days: ''
 
         }
     },
     created() {
-        this.getUser();
+        this.getList();
     },
    
     methods:{
@@ -141,13 +148,15 @@ export default {
         getList() {
             listWerun(this.queryParams).then(response => {
                 let data = response.rows;
-                for(let i=0;i<data.length;i++){
-                    for(let j=0;j<this.registerList.length;j++){
-                        if(data[i].userId==this.registerList[j].userId){
-                            data[i]['userName'] = this.registerList[j].nickname;
-                        }
-                    }
-                }
+                // for(let i=0;i<data.length;i++){
+                //     for(let j=0;j<this.registerList.length;j++){
+                //         if(data[i].userId==this.registerList[j].userId){
+                //             debugger
+                //             data[i]['userName'] = this.registerList[j].registerName;
+                //             data[i]['nickName'] = this.registerList[j].nickname;
+                //         }
+                //     }
+                // }
                 this.werunList = data;
                 this.total = response.total;
                 this.loading = false;
@@ -263,7 +272,7 @@ export default {
             this.queryParams = {
                 pageNum: 0,
                 pageSize: 10,
-                consecutiveDays: 15
+                consecutiveDays: this.days
             }
             // this.queryParams = {
             //     page: 0,
