@@ -30,16 +30,16 @@
         </el-row> -->
         <el-table v-loading="loading" :data="werunList" @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55" align="center" />
-            <el-table-column label="姓名" align="center" prop="registerName" />
-            <el-table-column label="昵称" align="center" prop="nickname" />
-            <el-table-column label="头像" align="center"  prop="headImgUrl" >
+            <el-table-column label="姓名" sortable align="center" prop="registerName" />
+            <el-table-column label="昵称" sortable align="center" prop="nickname" />
+            <el-table-column label="头像" sortable align="center"  prop="headImgUrl" >
                 
                  <!--插入图片链接的代码-->
                 <template slot-scope="scope">
                 <img  :src="scope.row.headImgUrl" alt="" style="width: 50px;height: 50px">
                 </template>
             </el-table-column>
-            <el-table-column label="签到天数" align="center" prop="consecutiveDay" />
+            <el-table-column label="签到天数" sortable align="center" prop="consecutiveDay" />
             <!-- <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
                 <template slot-scope="scope">
                 <el-button

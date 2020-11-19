@@ -58,11 +58,11 @@
             </el-col>
         </el-row>
         <el-table v-loading="loading" :data="registerList" @selection-change="handleSelectionChange">
-            <el-table-column type="selection" width="55" align="center" />
-            <el-table-column label="姓名" align="center" prop="nickname" />
-            <el-table-column label="电话" align="center" prop="mobile" />
-            <el-table-column label="地址" align="center" prop="address" />
-            <el-table-column label="注册日期" align="center" prop="registerTime" />
+            <el-table-column type="selection" sortable width="55" align="center" />
+            <el-table-column label="姓名" sortable align="center" prop="nickname" />
+            <el-table-column label="电话" sortable align="center" prop="mobile" />
+            <el-table-column label="地址" sortable align="center" prop="address" />
+            <el-table-column label="注册日期" sortable align="center" prop="registerTime" />
             <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
                 <template slot-scope="scope">
                 <el-button

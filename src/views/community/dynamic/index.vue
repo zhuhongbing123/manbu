@@ -65,9 +65,9 @@
         </el-row>
         <el-table v-loading="loading" :data="dynamicList" @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55" align="center" />
-            <el-table-column label="文章标题" align="center" prop="articleTitle" />
-            <el-table-column label="文章发布人" align="center" prop="articleAuthor" />
-            <el-table-column label="发布时间" align="center" prop="articleDate" />
+            <el-table-column label="文章标题" sortable align="center" prop="articleTitle" />
+            <el-table-column label="文章发布人" sortable align="center" prop="articleAuthor" />
+            <el-table-column label="发布时间" sortable align="center" prop="articleDate" />
             <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
                 <template slot-scope="scope">
                 <el-button

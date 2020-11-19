@@ -56,12 +56,12 @@
         </el-row>
         <el-table v-loading="loading" :data="userList" @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55" align="center" />
-            <el-table-column label="姓名" align="center" prop="userName" />
-            <el-table-column label="昵称" align="center" prop="nickname" />
-            <el-table-column label="手机号" align="center" prop="mobile" />
-            <el-table-column label="注册日期" align="center" prop="registerTime" />
-            <el-table-column label="上次登录日期" align="center" prop="lastLoginTime" />
-            <el-table-column label="上次登录IP" align="center" prop="lastLoginIp" />
+            <el-table-column label="姓名" sortable align="center" prop="userName" />
+            <el-table-column label="昵称" sortable align="center" prop="nickname" />
+            <el-table-column label="手机号" sortable align="center" prop="mobile" />
+            <el-table-column label="注册日期" sortable align="center" prop="registerTime" />
+            <el-table-column label="上次登录日期" sortable align="center" prop="lastLoginTime" />
+            <el-table-column label="上次登录IP" sortable align="center" prop="lastLoginIp" />
             <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
                 <template slot-scope="scope">
                 <el-button

@@ -59,10 +59,10 @@
         </el-row>
         <el-table v-loading="loading" :data="werunList" @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55" align="center" />
-            <el-table-column label="姓名" align="center" prop="userName" />
-            <el-table-column label="日期" align="center" prop="werunSubmitDate" />
-            <el-table-column label="最后更新时间" align="center" prop="werunSubmitTime" />
-            <el-table-column label="步数" align="center" prop="werunCount" />
+            <el-table-column label="姓名" sortable align="center" prop="userName" />
+            <el-table-column label="日期" sortable align="center" prop="werunSubmitDate" />
+            <el-table-column label="最后更新时间" sortable align="center" prop="werunSubmitTime" />
+            <el-table-column label="步数" sortable align="center" prop="werunCount" />
             <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
                 <template slot-scope="scope">
                 <el-button
