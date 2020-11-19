@@ -108,7 +108,9 @@ export default {
                 queryParams: {
                     pageNum: 1,
                     pageSize: 10,
-                    consecutiveDays: 15
+                    consecutiveDays: 15,
+                    isAsc:'desc',
+                    orderByColumn: 'consecutiveDay'
                 },
                 userName:'',
                 nickname: '',

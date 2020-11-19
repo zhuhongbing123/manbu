@@ -163,7 +163,9 @@ export default {
                 queryParams: {
                     pageNum: 1,
                     pageSize: 10,
-                    user_id: undefined
+                    user_id: undefined,
+                    isAsc:'desc',
+                    orderByColumn: 'articleDate'
                 },
                 userName:'',
                 restaurants:[],

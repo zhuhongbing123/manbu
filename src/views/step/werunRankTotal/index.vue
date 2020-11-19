@@ -108,7 +108,9 @@ export default {
                     pageNum: 1,
                     pageSize: 10,
                     werun_start_date: '2020-11-01',
-					werun_end_date: '2020-11-21'
+                    werun_end_date: '2020-11-21',
+                    isAsc:'desc',
+                    orderByColumn: 'totalCount'
                 },
                 userName:'',
                 restaurants:[],

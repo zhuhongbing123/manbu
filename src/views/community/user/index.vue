@@ -130,7 +130,9 @@ export default {
               // 查询参数
                 queryParams: {
                     pageNum: 1,
-                    pageSize: 10
+                    pageSize: 10,
+                    isAsc:'desc',
+                    orderByColumn: 'registerTime'
                 },
                  // 弹出层标题
                 title: "",

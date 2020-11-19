@@ -131,7 +131,9 @@ export default {
                 queryParams: {
                     pageNum: 1,
                     pageSize: 10,
-                    user_id: undefined
+                    user_id: undefined,
+                    isAsc:'desc',
+                    orderByColumn: 'werunCount'
                 },
                 userName:'',
                 restaurants:[],
@@ -289,7 +291,7 @@ export default {
         handleQuery(){
             
             this.queryParams = {
-                pageNum: 0,
+                pageNum: 1,
                 pageSize: 10,
                 userName: this.userName
             }
