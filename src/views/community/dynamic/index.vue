@@ -321,7 +321,9 @@ export default {
                 pageNum: 0,
                 pageSize: 10,
                 articleTitle: this.searchTitle,
-                articleContent: this.searchContent
+                articleContent: this.searchContent,
+                isAsc:'desc',
+                orderByColumn: 'articleDate'
             }
             //this.queryParams.pageNum = 1;
             // if(!this.searchName){

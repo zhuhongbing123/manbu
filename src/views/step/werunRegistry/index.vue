@@ -262,7 +262,9 @@ export default {
             this.queryParams = {
                 pageNum: 0,
                 pageSize: 10,
-                userName: this.userName
+                nickname: this.userName,
+                isAsc:'desc',
+                orderByColumn: 'registerTime'
             }
             // this.queryParams = {
             //     page: 0,

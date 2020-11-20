@@ -2,7 +2,7 @@
 <template>
     <div class="app-container">
         <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="68px">
-            <el-form-item label="天数" prop="days">
+            <el-form-item label="连续天数" prop="days">
                 
                 <el-autocomplete
                     class="inline-input"
@@ -13,6 +13,7 @@
                     @select="handleSelect"
                 ></el-autocomplete>
             </el-form-item>
+            <el-form-item>（每天超过10000步）</el-form-item>
             <el-form-item>
                 <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
             </el-form-item>
@@ -108,9 +109,7 @@ export default {
                 queryParams: {
                     pageNum: 1,
                     pageSize: 10,
-                    consecutiveDays: 15,
-                    isAsc:'desc',
-                    orderByColumn: 'consecutiveDay'
+                    consecutiveDays: 15
                 },
                 userName:'',
                 nickname: '',

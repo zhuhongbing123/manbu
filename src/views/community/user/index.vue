@@ -258,7 +258,9 @@ export default {
             this.queryParams = {
                 pageNum: 0,
                 pageSize: 10,
-                userName: this.searchName
+                userName: this.searchName,
+                isAsc:'desc',
+                orderByColumn: 'registerTime'
             }
             
             this.getUser();

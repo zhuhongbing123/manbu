@@ -310,7 +310,9 @@ export default {
                 pageNum: 0,
                 pageSize: 10,
                 werun_start_date: this.dateValue[0],
-                werun_end_date: this.dateValue[1]
+                werun_end_date: this.dateValue[1],
+                isAsc:'desc',
+                orderByColumn: 'totalCount'
                 
             }
             // this.queryParams = {

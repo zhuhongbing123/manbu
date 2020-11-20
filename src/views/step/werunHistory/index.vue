@@ -133,7 +133,7 @@ export default {
                     pageSize: 10,
                     user_id: undefined,
                     isAsc:'desc',
-                    orderByColumn: 'werunCount'
+                    orderByColumn: 'werunSubmitTime'
                 },
                 userName:'',
                 restaurants:[],
@@ -293,7 +293,9 @@ export default {
             this.queryParams = {
                 pageNum: 1,
                 pageSize: 10,
-                userName: this.userName
+                userName: this.userName,
+                isAsc:'desc',
+                orderByColumn: 'werunSubmitTime'
             }
             // this.queryParams = {
             //     page: 0,

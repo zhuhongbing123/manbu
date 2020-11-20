@@ -3,7 +3,7 @@ import request from '@/utils/request'
 // 查询运动历史列表
 export function listWerun(query) {
   return request({
-    url: '/mp/werun-history/list',
+    url: '/mp/werun-history/search',
     method: 'get',
     params: query
   })
@@ -16,6 +16,7 @@ export function listUser(query) {
     params: query
   })
 }
+
 
 // 查询运动详细
 export function getWerun(postId) {
